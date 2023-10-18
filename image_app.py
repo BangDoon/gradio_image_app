@@ -4,7 +4,7 @@ from torch.autograd import Variable
 from utils import *
 from networks import *
 import cv2
-from torchvision import transforms
+#from torchvision import transforms
 import os
 
 model = PRN_r(6, 1)
