@@ -18,7 +18,6 @@ file_list = [data_path+file_name for file_name in os.listdir(data_path)]
 
 
 def deNosing(noise_img):
-    
     y = np.array(noise_img)
     y = cv2.resize(y, (int(500), int(500)), interpolation=cv2.INTER_CUBIC)
 
@@ -39,20 +38,24 @@ def deNosing(noise_img):
         if iscuda:
             torch.cuda.synchronize()
 
-
     if iscuda:
-        save_out = np.uint8(255 * out.data.cpu().numpy().squeeze())   #back to cpu
+        save_out = np.uint8(255 * out.data.cpu().numpy().squeeze())
     else:
         save_out = np.uint8(255 * out.data.numpy().squeeze())
 
     save_out = save_out.transpose(1, 2, 0)
     save_out = cv2.resize(save_out,(noise_img.width,noise_img.height),interpolation=cv2.INTER_CUBIC)
+
     return save_out
 
-demo = gr.Interface(deNosing,
-                    gr.inputs.Image(type='pil'),
-                    gr.outputs.Image(type='pil'),
-                    examples=file_list
+demo = gr.Interface(fn=deNosing,
+                    inputs=gr.components.Image(type='pil'),
+                    outputs=gr.components.Image(type='pil'),
+                    examples=file_list,
+                    #allow_flagging='never',
+                    #allow_duplication=True,
+                    examples_per_page = 30,
+                    title = 'Hello, My Image App with AI',
                     )
 
-demo.launch(debug=True, share=True)
+demo.launch(debug=True, share=False)
