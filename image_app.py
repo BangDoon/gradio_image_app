@@ -7,8 +7,8 @@ import cv2
 #from torchvision import transforms
 import os
 
-model = PRN_r(6, 1)
 
+model = PRN_r(6, 1)
 model = model.cuda()
 model.load_state_dict(torch.load('./net_latest.pth'))
 iscuda = torch.cuda.is_available()
@@ -55,7 +55,7 @@ demo = gr.Interface(fn=deNosing,
                     #allow_flagging='never',
                     #allow_duplication=True,
                     examples_per_page = 30,
-                    title = 'Hello, My Image App with AI',
+                    title = 'Hello, My App with AI',
                     )
 
 demo.launch(debug=True, share=False)
